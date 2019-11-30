@@ -41,32 +41,75 @@ defined('ABSPATH') or die('No nonono sir, dont do that!!');
 
 class AlecadddPlugin
 {
-    public function register_post_type()
-    {
-        add_action('init', array($this, 'custom_post_type'));
-    }
 
-    public function register_admin_scripts()
-    {
-        add_action('admin_enqueue_scripts', array($this, 'enqueue'));
-    }
-
-    public function register_wp_scripts()
-    {
-        add_action('wp_enqueue_scripts', array($this, 'enqueue'));
-    }
-
+    /**
+     * activate function
+     *
+     * @return void
+     */
     public function activate()
     {
         $this->custom_post_type();
         flush_rewrite_rules();
     }
 
+    /**
+     * deactivate function
+     *
+     * @return void
+     */
     public function deactivate()
     {
         flush_rewrite_rules();
     }
 
+    /**
+     * register function
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->register_post_type();
+        $this->register_admin_scripts();
+        $this->register_wp_scripts();
+    }
+
+    /**
+     * register_admin_scripts function
+     *
+     * @return void
+     */
+    public function register_admin_scripts()
+    {
+        add_action('admin_enqueue_scripts', array($this, 'enqueue'));
+    }
+
+    /**
+     * register_wp_scripts function
+     *
+     * @return void
+     */
+    public function register_wp_scripts()
+    {
+        add_action('wp_enqueue_scripts', array($this, 'enqueue'));
+    }
+
+    /**
+     * register_post_type function
+     *
+     * @return void
+     */
+    private function register_post_type()
+    {
+        add_action('init', array($this, 'custom_post_type'));
+    }
+
+    /**
+     * custom_post_type function
+     *
+     * @return void
+     */
     public function custom_post_type()
     {
         register_post_type('book', [
@@ -78,6 +121,11 @@ class AlecadddPlugin
         ]);
     }
 
+    /**
+     * enqueue function
+     *
+     * @return void
+     */
     public function enqueue()
     {
         wp_enqueue_style('mypluginstyle', plugins_url('/assets/mystyle.css', __FILE__));
@@ -88,13 +136,16 @@ class AlecadddPlugin
 
 if(class_exists('AlecadddPlugin')){
     $alecadddPlugin = new AlecadddPlugin();
-    $alecadddPlugin->register_post_type();
     $alecadddPlugin->register_admin_scripts();
     $alecadddPlugin->register_wp_scripts();
 }
 
-// Activation
+/**
+ * Activation hook
+ */
 register_activation_hook(__FILE__, array($alecadddPlugin, 'activate'));
 
-//deactivate
+/**
+ * deactivate hook
+ */
 register_deactivation_hook(__FILE__, array($alecadddPlugin, 'deactivate'));
