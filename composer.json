@@ -1,0 +1,17 @@
+{
+    "name": "root/alecaddd-plugin",
+    "description": "Primer plugin en WordPress",
+    "type": "project",
+    "license": "GPL",
+    "authors": [
+        {
+            "name":"Gerard Belot",
+            "email": "gerardo.belot@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4":{"Inc\\": "./inc"}
+    }
+}
