@@ -50,7 +50,8 @@ class AlecadddPlugin
     public function activate()
     {
         $this->custom_post_type();
-        flush_rewrite_rules();
+        require_once plugin_dir_path(__FILE__) . 'inc/alecaddd-plugin-activate.php';
+        AlecadddPluginActivate::activate();
     }
 
     /**
@@ -60,7 +61,8 @@ class AlecadddPlugin
      */
     public function deactivate()
     {
-        flush_rewrite_rules();
+        require_once plugin_dir_path(__FILE__) . 'inc/alecaddd-plugin-deactivate.php';
+        AlecadddPluginDeactivate::deactivate();
     }
 
     /**
@@ -83,6 +85,30 @@ class AlecadddPlugin
     public function register_admin_scripts()
     {
         add_action('admin_enqueue_scripts', array($this, 'enqueue'));
+        add_action('admin_menu', array($this, 'add_admin_pages'));
+    }
+
+    /**
+     * add_admin_pages function
+     *
+     * @return void
+     */
+    public function add_admin_pages()
+    {
+        // especificaciones de la pagina de administración del plugin
+        add_menu_page('Alecaddd Plugin', 'Alecaddd', 'manage_options', 'alecaddd_plugin',
+                                    array($this, 'admin_index'), 'dashicons-store', 110);
+    }
+
+    /**
+     * admin_index function
+     * callback from add_admin_page()
+     *
+     * @return void
+     */
+    public function admin_index()
+    {
+
     }
 
     /**
@@ -117,7 +143,6 @@ class AlecadddPlugin
             'label' => 'books',
             'description' => 'short descriptive summary of the post type',
             'show_in_menu' => true
-
         ]);
     }
 
@@ -136,8 +161,7 @@ class AlecadddPlugin
 
 if(class_exists('AlecadddPlugin')){
     $alecadddPlugin = new AlecadddPlugin();
-    $alecadddPlugin->register_admin_scripts();
-    $alecadddPlugin->register_wp_scripts();
+    $alecadddPlugin->register();
 }
 
 /**
