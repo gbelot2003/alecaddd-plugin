@@ -41,6 +41,12 @@ defined('ABSPATH') or die('No nonono sir, dont do that!!');
 
 class AlecadddPlugin
 {
+    private $pluginName;
+
+    public function __construct()
+    {
+        $this->pluginName = plugin_basename(__FILE__);
+    }
 
     /**
      * activate function
@@ -86,6 +92,23 @@ class AlecadddPlugin
     {
         add_action('admin_enqueue_scripts', array($this, 'enqueue'));
         add_action('admin_menu', array($this, 'add_admin_pages'));
+        /**
+         * Ojo, esto es importante
+         */
+        add_filter("plugin_action_links_$this->pluginName", array($this, 'settings_links'));
+       
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function settings_links($links)
+    {
+        $settings_links = '<a href="admin.php?page=alecaddd_plugin">Settings</a>';
+        array_push($links, $settings_links);
+        return $links;
     }
 
     /**
@@ -108,7 +131,7 @@ class AlecadddPlugin
      */
     public function admin_index()
     {
-
+        require_once plugin_dir_path(__FILE__) . 'templates/admin.php';
     }
 
     /**
