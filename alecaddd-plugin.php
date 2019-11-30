@@ -18,7 +18,7 @@ Text Domain: alecaddd-plugin
 /**
  * AlecadddPlugin
  *
- * Plugin Name: Classic Editor
+ * Plugin Name: AlecadddPlugin
  * Plugin URI:  https://wordpress.org/plugins/classic-editor/
  * Description: Enables the WordPress classic editor and the old-style Edit Post screen with TinyMCE, Meta Boxes, etc. Supports the older plugins that extend this screen.
  * Version:     1.5
@@ -37,6 +37,43 @@ Text Domain: alecaddd-plugin
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
- if (! defined('ABSPATH')){
-     die;
- }
+defined('ABSPATH') or die('No nonono sir, dont do that!!');
+
+class AlecadddPlugin
+{
+    function __construct()
+    {
+       add_action('init', array($this, 'custom_post_type'));
+    }
+
+    function activate()
+    {
+        $this->custom_post_type();
+        flush_rewrite_rules();
+    }
+
+    function deactivate()
+    {
+    }
+
+    function custom_post_type()
+    {
+        register_post_type('book', [
+            'public' =>  true, 
+            'label' => 'books',
+            'description' => 'short descriptive summary of the post type',
+            'show_in_menu' => true
+
+        ]);
+    }
+}
+
+if(class_exists('AlecadddPlugin')){
+    $alecadddPlugin = new AlecadddPlugin();
+}
+
+// Activation
+register_activation_hook(__FILE__, array($alecadddPlugin, 'activate'));
+
+//deactivate
+register_deactivation_hook(__FILE__, array($alecadddPlugin, 'deactivate'));
