@@ -41,9 +41,9 @@ defined('ABSPATH') or die('No nonono sir, dont do that!!');
 
 class AlecadddPlugin
 {
-    public function __construct()
+    public function register_post_type()
     {
-       add_action('init', array($this, 'custom_post_type'));
+        add_action('init', array($this, 'custom_post_type'));
     }
 
     public function register_admin_scripts()
@@ -81,11 +81,14 @@ class AlecadddPlugin
     public function enqueue()
     {
         wp_enqueue_style('mypluginstyle', plugins_url('/assets/mystyle.css', __FILE__));
+        wp_enqueue_script('mypluginscript', plugins_url('/assets/myscript.js', __FILE__));
+
     }
 }
 
 if(class_exists('AlecadddPlugin')){
     $alecadddPlugin = new AlecadddPlugin();
+    $alecadddPlugin->register_post_type();
     $alecadddPlugin->register_admin_scripts();
     $alecadddPlugin->register_wp_scripts();
 }
