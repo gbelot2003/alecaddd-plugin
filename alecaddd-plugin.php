@@ -41,22 +41,33 @@ defined('ABSPATH') or die('No nonono sir, dont do that!!');
 
 class AlecadddPlugin
 {
-    function __construct()
+    public function __construct()
     {
        add_action('init', array($this, 'custom_post_type'));
     }
 
-    function activate()
+    public function register_admin_scripts()
+    {
+        add_action('admin_enqueue_scripts', array($this, 'enqueue'));
+    }
+
+    public function register_wp_scripts()
+    {
+        add_action('wp_enqueue_scripts', array($this, 'enqueue'));
+    }
+
+    public function activate()
     {
         $this->custom_post_type();
         flush_rewrite_rules();
     }
 
-    function deactivate()
+    public function deactivate()
     {
+        flush_rewrite_rules();
     }
 
-    function custom_post_type()
+    public function custom_post_type()
     {
         register_post_type('book', [
             'public' =>  true, 
@@ -66,10 +77,17 @@ class AlecadddPlugin
 
         ]);
     }
+
+    public function enqueue()
+    {
+        wp_enqueue_style('mypluginstyle', plugins_url('/assets/mystyle.css', __FILE__));
+    }
 }
 
 if(class_exists('AlecadddPlugin')){
     $alecadddPlugin = new AlecadddPlugin();
+    $alecadddPlugin->register_admin_scripts();
+    $alecadddPlugin->register_wp_scripts();
 }
 
 // Activation
