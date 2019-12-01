@@ -37,22 +37,34 @@ Text Domain: alecaddd-plugin
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+ /** Metodo de protección de plugin en WP */
 defined('ABSPATH') or die('No nonono sir, dont do that!!');
 
+/** metodo de carga del autoload */
 if(file_exists(dirname(__FILE__) . '/vendor/autoload.php'))
 {
     require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 }
 
+/** definimos constante para las rutas de los archivos */
 define('PLUGIN_PATH', plugin_dir_path(__FILE__));
 
+/** definimos la URL del plugin */
 define('PLUGIN_URL', plugin_dir_url(__FILE__));
 
+/** definimos el nombre del plugin */
 define('PLUGIN_NAME', plugin_basename(__FILE__));
 
+/** Regristro de actividades al activar el plugin */
 register_activation_hook(__FILE__ , array(Inc\Base\Activate::class, 'activate'));
+
+/** Registro de actividades al desintalar el plugin */
 register_deactivation_hook(__FILE__ , array(Inc\Base\Deactivate::class, 'deactivate'));
 
+/** Registro de actividades al desinstalar el plugun */
+register_uninstall_hook(__FILE__, array(Inc\Base\Uninstall::class, 'unistall'));
+
+/** Carga de servicios del plugin */
 if (class_exists('Inc\\Init'))
 {
     Inc\Init::register_services();
