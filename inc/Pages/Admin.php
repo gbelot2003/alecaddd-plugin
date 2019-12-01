@@ -7,33 +7,34 @@ use Inc\Api\SettingsApi;
 
 class Admin extends BaseController
 {
+    private $settings; 
+    private $pages;
+
+    public function __construct()
+    {
+        $this->settings = new SettingsApi();
+        $this->pages = [
+            $this->adminPage()
+        ];
+    }
 
     public function register()
     {
-        add_action('admin_menu', array($this, 'add_admin_pages'));
+        $this->settings->addPages($this->pages)->register();
     }
 
-    /**
-     * add_admin_pages function
-     *
-     * @return void
-     */
-    public function add_admin_pages()
-    {
-        // especificaciones de la pagina de administración del plugin
-        add_menu_page('Alecaddd Plugin', 'Alecaddd', 'manage_options', 'alecaddd_plugin',
-                                    array($this, 'admin_index'), 'dashicons-store', 110);
-    }
 
-    /**
-     * admin_index function
-     * callback from add_admin_page()
-     *
-     * @return void
-     */
-    public function admin_index()
+    private function adminPage()
     {
-        require_once $this->plugin_path . 'templates/admin.php';
+        return [
+            'page_title' => 'Alecaddd Plugin',
+            'menu_title' => 'Alecaddd',
+            'capability' => 'manage_options',
+            'menu_slug' => 'alecaddd_plugin',
+            'callback' => function(){echo '<h1>Alecaddd-plugin</h1>';},
+            'icon_url' => 'dashicons-store',
+            'position' => '110'
+            ];
     }
 
 
