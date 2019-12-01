@@ -3,7 +3,9 @@
  * @package AlecadddPlugin
  */
 
- class AlecadddPluginDeactivate
+ namespace Inc;
+
+ class Deactivate
  {
      public static function deactivate()
      {

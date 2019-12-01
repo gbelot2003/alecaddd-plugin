@@ -3,7 +3,9 @@
  * @package AlecadddPlugin
  */
 
- class AlecadddPluginActivate
+ namespace Inc;
+
+ class Activate
  {
      public static function activate()
      {

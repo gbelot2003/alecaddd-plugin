@@ -39,6 +39,13 @@ Text Domain: alecaddd-plugin
 
 defined('ABSPATH') or die('No nonono sir, dont do that!!');
 
+if(file_exists(dirname(__FILE__) . '/vendor/autoload.php')){
+    require_once dirname( __FILE__ ) . '/vendor/autoload.php';
+}
+
+use Inc\Activate;
+use Inc\Deactivate;
+
 class AlecadddPlugin
 {
     private $pluginName;
@@ -56,8 +63,7 @@ class AlecadddPlugin
     public function activate()
     {
         $this->custom_post_type();
-        require_once plugin_dir_path(__FILE__) . 'inc/alecaddd-plugin-activate.php';
-        AlecadddPluginActivate::activate();
+        Activate::activate();
     }
 
     /**
@@ -67,8 +73,7 @@ class AlecadddPlugin
      */
     public function deactivate()
     {
-        require_once plugin_dir_path(__FILE__) . 'inc/alecaddd-plugin-deactivate.php';
-        AlecadddPluginDeactivate::deactivate();
+        Deactivate::deactivate();
     }
 
     /**
