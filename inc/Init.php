@@ -11,6 +11,7 @@ final class Init
             Pages\Admin::class, 
             Base\Enqueue::class,
             Base\SettingsLinks::class,
+            Base\Posttypes::class,
         ];
     }
 
