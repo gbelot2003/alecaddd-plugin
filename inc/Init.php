@@ -8,8 +8,9 @@ final class Init
     public static function GetServices()
     {
         return [
-            Pages\Admin::class,
+            Pages\Admin::class, 
             Base\Enqueue::class,
+            Base\SettingsLinks::class,
         ];
     }
 

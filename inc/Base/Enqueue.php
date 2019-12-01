@@ -6,7 +6,10 @@ class Enqueue
 {
     public function register()
     {
+        // Esto para paginas administrativas
         add_action('admin_enqueue_scripts', array($this, 'enqueue'));
+        // Esto para agregar en el template
+        add_action('wp_enqueue_scripts', array($this, 'enqueue'));
     }
 
     /**
