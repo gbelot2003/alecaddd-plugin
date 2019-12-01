@@ -50,19 +50,8 @@ define('PLUGIN_URL', plugin_dir_url(__FILE__));
 
 define('PLUGIN_NAME', plugin_basename(__FILE__));
 
-use Inc\Base\Activate;
-use Inc\Base\Deactivate;
-
-function activate_alecaddd_plugin(){
-    Activate::activate();
-}
-
-function deactivate_alecaddd_plugin(){
-    Deactivate::deactivate();
-}
-
-register_activation_hook(__FILE__, 'activate_alecaddd_plugin');
-register_deactivation_hook(__FILE__, 'deactivate_alecaddd_plugin');
+register_activation_hook(__FILE__ , array(Inc\Base\Activate::class, 'activate'));
+register_deactivation_hook(__FILE__ , array(Inc\Base\Deactivate::class, 'deactivate'));
 
 if (class_exists('Inc\\Init'))
 {
