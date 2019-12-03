@@ -10,6 +10,7 @@ class Admin extends BaseController
     private $settings; 
     private $pages;
 
+    
     public function __construct()
     {
         $this->settings = new SettingsApi();
@@ -17,6 +18,7 @@ class Admin extends BaseController
             $this->adminPage()
         ];
     }
+
 
     public function register()
     {
