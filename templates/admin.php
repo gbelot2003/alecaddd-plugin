@@ -1,1 +1,1 @@
-<h1>Alecadd Plugin</h1>
+<h1>Alecadd TPlugin</h1>

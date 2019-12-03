@@ -2,38 +2,50 @@
 
 namespace Inc\Pages;
 
-use Inc\Base\BaseController;
 use Inc\Api\SettingsApi; 
+use Inc\Base\BaseController;
+use Inc\Api\Callbacks\AdminCallbacks;
 
 class Admin extends BaseController
 {
     private $settings; 
     private $pages;
     private $subPages;
+    private $callbacks;
 
-    
-    public function __construct()
+    /**
+     * register function
+     *
+     * @return void
+     */
+    public function register()
     {
         $this->settings = new SettingsApi();
+
+        $this->callbacks = new AdminCallbacks(); 
+
+        $this->setPages();
+        $this->setSubPages();
+        $this->settings->addPages($this->pages)
+        ->withSubPage('dashboard')
+        ->addSubPages($this->subPages)
+        ->register();
+    }
+
+    public function setPages()
+    {
         $this->pages = [
             $this->adminPage(),
         ];
+    }
 
+    public function setSubPages()
+    {
         $this->subPages = [
             $this->customPostType(),
             $this->customTaxonomy(),
             $this->customWidgets(),
         ];
-    
-    }
-
-
-    public function register()
-    {
-        $this->settings->addPages($this->pages)
-        ->withSubPage('dashboard')
-        ->addSubPages($this->subPages)
-        ->register();
     }
 
     /**
@@ -48,7 +60,7 @@ class Admin extends BaseController
             'menu_title' => 'Alecaddd',
             'capability' => 'manage_options',
             'menu_slug' => 'alecaddd_plugin',
-            'callback' => function(){echo '<h1>Alecaddd-plugin</h1>';},
+            'callback' => array($this->callbacks, 'adminDashboard'),
             'icon_url' => 'dashicons-store',
             'position' => '110'
             ];
@@ -88,7 +100,7 @@ class Admin extends BaseController
         ];
     }
 
-        /**
+    /**
      * Pagina de Widgets function
      *
      * @return void
