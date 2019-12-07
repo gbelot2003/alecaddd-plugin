@@ -76,4 +76,20 @@ class SettingsApi
         }
     }
 
+    public function registerCustomFields()
+    {
+        // register the settings
+        register_setting($setting["option_group"], $setting['option_name'], 
+                (isset($setting['callback']) ? $setting["callback"] : null));
+        
+        // add settings section
+        add_settings_section( $section['id'], $section['title'], 
+                (isset($section['callback']) ? $section['callback'] : null), $section['page'] );
+        
+        // add settings fields
+        add_settings_field( $field['id'], $field['title'], 
+            (isset($field['callback']) ? $field['callback'] : null), $field['page'], $field['section'], 
+            (isset($field['args']) ? $field['args'] : null))
+    }
+
 }
