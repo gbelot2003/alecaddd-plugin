@@ -8,7 +8,7 @@ use Inc\Api\Callbacks\AdminCallbacks;
 
 class Admin extends BaseController
 {
-    private $settings; 
+    public $settings; 
     private $pages;
     private $subPages;
     private $callbacks;
@@ -25,10 +25,20 @@ class Admin extends BaseController
         $this->callbacks = new AdminCallbacks(); 
 
         $this->setPages();
+        
         $this->setSubPages();
-        $this->settings->addPages($this->pages)
+
+        $this->setSettings();
+
+        $this->setSections();
+
+        $this->setFields();
+
+
+        $this->settings
+        ->addPages($this->pages)
         ->withSubPage('dashboard')
-        ->addSubPages($this->subPages)
+        ->addSubPages($this->subPages)        
         ->register();
     }
 
@@ -116,5 +126,56 @@ class Admin extends BaseController
             'callback' => function(){echo '<h1>Widgets</h1>';},
         ];
     }
+
+
+    public function setSettings()
+    {
+        $args = array(
+            array(
+                'option_group' => 'alecaddd_option_group',
+                'option_name' => 'text_example',
+                'callback' => array( $this->callbacks,  'alecadOptionsGroup'),
+            ),
+        );
+
+        $this->settings->addSettings($args);
+    }
+
+
+    public function setSections()
+    {
+        $args = array(
+            array(
+                'id' => 'alecaddd_admin_index',
+                'title' => 'settings',
+                'callback' => array( $this->callbacks,  'alecadAdminSection'),
+                'page' => 'alecaddd_plugin', // slug de una pagina
+            ),
+        );
+
+        $this->settings->addSections($args);
+    }
+
+
+    public function setFields()
+    {
+        $args = array(
+            array(
+                'id' => 'text_example', // mismo option_names en settings
+                'title' => 'Test example',
+                'callback' => array( $this->callbacks,  'alecadTextExample'),
+                'page' => 'alecaddd_plugin',
+                'section' => 'alecaddd_admin_index', // mismo de la seccion en la que imprime
+                'args' => array(
+                    'label_for' => 'text_example',
+                    'class' => 'example-class',
+
+                ),
+            )
+        );
+
+        $this->settings->addFields($args);
+    }
+
 
 }
