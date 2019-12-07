@@ -42,6 +42,7 @@ class Admin extends BaseController
         ->register();
     }
 
+
     public function setPages()
     {
         $this->pages = [
@@ -49,6 +50,7 @@ class Admin extends BaseController
         ];
     }
 
+    
     public function setSubPages()
     {
         $this->subPages = [
